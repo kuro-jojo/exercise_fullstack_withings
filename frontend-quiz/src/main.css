@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol,
+ul {
+    list-style: none;
+}
+blockquote,
+q {
+    quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Custom css */
+
+html,
+body,
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background: #181c24;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.App {
+    margin-top: 20px;
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.App-header h1 {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.App-content {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.question-answer {
+    display: block;
+    padding: 10px 15px;
+    background: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.question-answer.correct {
+    background-color: rgb(5, 138, 5);
+}
+
+.question-answer.incorrect {
+    background-color: rgb(255, 0, 0);
+}
+
+.question-answer.default {
+    background-color: rgb(255, 255, 255);
+}
+
+.question-answer:hover,
+.question-answer.selected {
+    background: #464646;
+    border: 1px solid #000;
+}
+
+.question-category {
+    margin-top: 40px;
+    font-size: 12px;
+}
+.question-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px 0px 30px;
+}
+.question-answers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+    margin-bottom: 40px;
+}
+
+.submit-btn,
+.next-btn {
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 15px 20px;
+    background: rgb(18, 93, 190);
+    color: white;
+    border-radius: 8px;
+    transition: all 250ms ease-out;
+    cursor: pointer;
+    width: 60%;
+    margin: auto;
+}
+
+.submit-btn:hover {
+    background: rgb(2, 83, 50);
+    color: white;
+}
+
+.next-btn {
+    background: rgb(3, 83, 79);
+    color: white;
+}
+
+.retry-btn {
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 15px 20px;
+    background: rgb(93, 85, 170);
+    color: white;
+    border-radius: 8px;
+    transition: all 250msease-out;
+    cursor: pointer;
+}
+.score {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 20px 0;
+}
