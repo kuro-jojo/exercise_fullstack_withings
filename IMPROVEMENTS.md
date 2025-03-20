@@ -7,3 +7,4 @@
 ### For the frontend project, we can consider the following improvements:
 
 - Add the bonus features mentioned in the README.
+- Improve the project structure and code organization.

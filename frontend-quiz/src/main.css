@@ -169,6 +169,13 @@ body {
     text-align: center;
 }
 
+.question-countdown{
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    color: #f00;
+    text-align: end;
+}
 .question-answer {
     display: block;
     padding: 10px 15px;

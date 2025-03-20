@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
 const Question = ({ question, nextQuestion, updateScore }) => {
+	const time = 10;
 	const [selected, setSelected] = useState(null)
 	const [point, setPoint] = useState(1)
 
-	const [isAnswered, setIsAnswerd] = useState(false)
+	const [isAnswered, setIsAnswered] = useState(false)
 
-	const [highlightedAnswer, sethighlightedAnswer] = useState(null)
+	const [highlightedAnswer, setHighlightedAnswer] = useState(null)
 	// avoid rendering the answers always in the same order
 	const [shuffledAnswers, setShuffledAnswers] = useState([])
+	const [secondsRemaining, setSecondsRemaining] = useState(time);
+	// will be used to stop the timer when an answer is provided
+	const [intervalId, setIntervalId] = useState(null);
 
 	const handleClick = () => {
 		if (selected !== null) {
 			const isCorrect = selected === question.correctAnswer
-			sethighlightedAnswer(question.correctAnswer)
-			setIsAnswerd(true)
+			setHighlightedAnswer(question.correctAnswer)
+			setIsAnswered(true)
 
 			if (isCorrect) {
 				updateScore(point)
+			}
+
+			if (intervalId) {
+				clearInterval(intervalId)
 			}
 		}
 	}
@@ -56,20 +64,47 @@ const Question = ({ question, nextQuestion, updateScore }) => {
 		}
 	}
 
-	useEffect(() => {
+	const setTimer = () => {
+		const interval = setInterval(() => {
+			setSecondsRemaining((prev) => {
+				if (prev <= 1) {
+					setHighlightedAnswer(question.correctAnswer);
+					setIsAnswered(true);
+					clearInterval(interval);
+					return 0;
+				}
+				return prev - 1;
+			});
+		}, 1000);
+
+		setIntervalId(interval);
+
+		return interval
+	}
+
+	const initQuestion = () => {
 		// reset when question change
 		setSelected(null)
-		sethighlightedAnswer(null)
-		setIsAnswerd(false)
+		setHighlightedAnswer(null)
+		setIsAnswered(false)
 		setPoint(mapQuestionDifficultyToScore(question.difficulty))
+		setSecondsRemaining(time)
 
 		const answers = [...question.incorrectAnswers, question.correctAnswer]
 		const shuffled = answers.sort(() => Math.random() - 0.5)
 		setShuffledAnswers(shuffled)
+	}
+
+	useEffect(() => {
+		initQuestion()
+
+		const interval = setTimer()
+		return () => clearInterval(interval);
 	}, [question])
 
 	return (
 		<div className="question-container">
+			<div className='question-countdown'>{secondsRemaining > 0 ? `${secondsRemaining} s` : "Timeout"}</div>
 			<div className='question-category'>{formatCategory(question.category)} - {point} pts</div>
 			<div className='question-title'>{question.question.text}</div>
 			<div className="question-answers">
@@ -87,6 +122,5 @@ const Question = ({ question, nextQuestion, updateScore }) => {
 		</div>
 	)
 }
-
 
 export default Question;

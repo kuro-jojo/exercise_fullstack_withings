@@ -15,7 +15,6 @@ const App = () => {
 	const [maxScore, setMaxScore] = useState(0);
 	const [isOver, setIsOver] = useState(false);
 
-
 	const fetchQuestions = async () => {
 		try {
 			const response = await fetch(apiUrl)
