@@ -2,20 +2,34 @@ import React, { useState, useEffect } from 'react';
 
 import Question from './Question';
 import FinalScore from './FinalScore';
+import Config from './Config';
 
 
 const App = () => {
 	const numberOfQuestions = 5;
-	const apiUrl = "https://the-trivia-api.com/v2/questions?limit=" + numberOfQuestions
 
 	const [questions, setQuestions] = useState([]);
 	const [numberOfQuestionsAnswered, setNumberOfQuestionsAnswered] = useState(1);
 	const [currentQuestion, setCurrentQuestion] = useState(null)
 	const [score, setScore] = useState(0);
-	const [maxScore, setMaxScore] = useState(0);
-	const [isOver, setIsOver] = useState(false);
+	const [maxScore, setMaxScore] = useState(0)
+	const [isOver, setIsOver] = useState(false)
+	const [isGameStarted, setIsGameStarted] = useState(false)
 
-	const fetchQuestions = async () => {
+	const initGame = (numQuestions, category, difficulty) => {
+		console.log(numQuestions, category, difficulty);
+		let apiUrl
+		if (category) {
+			apiUrl = `https://the-trivia-api.com/v2/questions?limit=${numQuestions}&difficulties=${difficulty}`
+
+		} else {
+			apiUrl = `https://the-trivia-api.com/v2/questions?limit=${numQuestions}&tag=${category}&difficulties=${difficulty}`
+		}
+		setIsGameStarted(true)
+		fetchQuestions(apiUrl)
+	};
+
+	const fetchQuestions = async (apiUrl) => {
 		try {
 			const response = await fetch(apiUrl)
 			const data = await response.json()
@@ -65,37 +79,42 @@ const App = () => {
 		setCurrentQuestion(null);
 		setScore(0);
 		setIsOver(false);
-		fetchQuestions();
+		setIsGameStarted(false)
 	};
 
 	useEffect(() => {
-		fetchQuestions()
+		if (isGameStarted) initGame()
 	}, [])
 
 	return (
 		<div className="App">
-			<div className="App-header">
-				<h1>Quiz -
-					{isOver ? " End" : ` Question ${numberOfQuestionsAnswered}/${numberOfQuestions}`} </h1>
-			</div>
-
-			<div className="App-content">
-				{!isOver && currentQuestion && (
-					<Question
-						question={currentQuestion}
-						nextQuestion={nextQuestion}
-						updateScore={updateScore}
-					/>
-				)}
-				{
-					isOver && (
-						<FinalScore
-							score={score}
-							maxScore={maxScore}
-							retryQuiz={retryQuiz}
-						/>)
-				}
-			</div>
+			{isGameStarted ? (
+				<>
+					<div className="App-header">
+						<h1>Quiz -
+							{isOver ? " End" : ` Question ${numberOfQuestionsAnswered}/${numberOfQuestions}`} </h1>
+					</div>
+					<div className="App-content">
+						{!isOver && currentQuestion && (
+							<Question
+								question={currentQuestion}
+								nextQuestion={nextQuestion}
+								updateScore={updateScore} />
+						)}
+						{isOver && (
+							<FinalScore
+								score={score}
+								maxScore={maxScore}
+								retryQuiz={retryQuiz} />)}
+					</div></>
+			) :
+				<>
+					<div className="App-header">
+						<h1>Quiz - Configuration </h1>
+					</div>
+					<Config initGame={initGame} />
+				</>
+			}
 		</div>
 	);
 }
